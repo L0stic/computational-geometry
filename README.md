@@ -1,2 +1,1 @@
-# computational-geometry
-Lab's solutions
+# Computational geometry
