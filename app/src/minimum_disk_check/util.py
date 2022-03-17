@@ -39,6 +39,12 @@ class Disc:
         s_2 = get_s_2(a1, a2, a3)
         if s_2 < TOLERANCE:
             print("This is line")
+            if a1 > a2 and a1 > a3:
+                self.circumscribe_diameter(p2, p3)
+            elif a2 > a1 and a2 > a3:
+                self.circumscribe_diameter(p1, p3)
+            else:
+                self.circumscribe_diameter(p1, p2)
             return False
 
         s = np.sqrt(s_2)
@@ -52,13 +58,32 @@ class Disc:
         print(self.center, self.radius)
         return True
 
-    def is_contain(self, point: np.array) -> bool:
+    def is_contain(self, point: np.array) -> int:
         distance = get_distance(self.center, point)
-        diff = distance - self.radius
+        diff = self.radius - distance
         if diff > TOLERANCE:
-            return False
+            return 1
+        elif diff < -TOLERANCE:
+            return -1
         else:
+            return 0
+
+    def is_equal(self, disc) -> bool:
+        diff_center = get_distance(self.center, disc.center)
+        diff_radius = np.abs(self.radius - disc.radius)
+
+        if diff_center <= TOLERANCE and diff_radius <= TOLERANCE:
             return True
+        else:
+            return False
+
+    def to_string(self):
+        if self.center is None:
+            return "empty set"
+        elif self.radius <= TOLERANCE:
+            return f"point: {self.center}"
+        else:
+            return f"center: {self.center}, r: {self.radius}"
 
     def plot(self, figure=None, ax=None):
         if self.center is None:

@@ -1,5 +1,6 @@
 import numpy as np
 from .util import Disc
+from .mindisc import find_min_disc
 
 
 def read_data(file_path_points: str, file_path_indexes: str) -> (list, list):
@@ -36,59 +37,57 @@ def solve(points, indexes):
     min_disc = None
     for j in range(len(indexes)):
         if len(indexes[j]) == 0:
-            print("zero way")
+            print("empty set")
+
             if len(points) == 0:
                 result.append(True)
                 if min_disc is None:
                     min_disc = Disc()
-            result.append(False)
+                    print("min_disc:", min_disc.to_string())
+            else:
+                result.append(False)
+            continue
+        elif len(indexes[j]) == 1:
+            print("one set")
+
+            if len(points) == 1:
+                result.append(True)
+                if min_disc is None:
+                    min_disc = Disc()
+                    min_disc.circumscribe_point(
+                        np.array(points[indexes[j]][0])
+                    )
+                    print("min_disc:", min_disc.to_string())
+            else:
+                result.append(False)
             continue
 
-        start_points = []
-        other_points = []
-        for i in range(len(points)):
-            if i in indexes[j]:
-                start_points.append(points[i])
-            else:
-                other_points.append(points[i])
+        if min_disc is None:
+            print("find min_disc")
+            min_disc = find_min_disc(list(points))
+            print("min_disc:", min_disc.to_string())
 
         disc = Disc()
+        start_points = [points[i] for i in indexes[j]]
 
-        if len(indexes[j]) == 1:
-            print("one way")
-            disc.circumscribe_point(np.array(start_points[0]))
-
-        elif len(indexes[j]) == 2:
-            print("two way")
-            disc.circumscribe_diameter(np.array(start_points[0]), np.array(start_points[1]))
-            for other_point in other_points:
-                other_point = np.array(other_point)
-                if not disc.is_contain(other_point):
-                    disc.circumscribe_triangle(
-                        np.array(start_points[0]), np.array(start_points[1]), other_point
-                    )
-
+        if len(indexes[j]) == 2:
+            print("two points")
+            disc.circumscribe_diameter(
+                np.array(start_points[0]), np.array(start_points[1])
+            )
         elif len(indexes[j]) == 3:
-            print("three way")
+            print("three points")
             if not disc.circumscribe_triangle(
-                    np.array(start_points[0]), np.array(start_points[1]), np.array(start_points[2])
+                np.array(start_points[0]), np.array(start_points[1]), np.array(start_points[2])
             ):
                 result.append(False)
                 continue
-
         else:
-            print("Error")
-            return None
+            print("Error: wrong indexes")
+            return None, None
 
-        while len(other_points) > 0:
-            other_point = np.array(other_points.pop())
-            if not disc.is_contain(other_point):
-                result.append(False)
-                break
-
-        if len(result) == j:
+        if not min_disc.is_equal(disc):
+            result.append(False)
+        else:
             result.append(True)
-
-            if min_disc is None:
-                min_disc = disc
     return result, min_disc

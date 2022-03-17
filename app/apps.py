@@ -18,7 +18,7 @@ def minimum_disk_check(input_dir, output_dir, visual):
     if result is None:
         return
 
-    print(result)
+    print("result:", result)
 
     if visual:
         figure, axes = plt.subplots()
@@ -41,5 +41,4 @@ def minimum_disk_check(input_dir, output_dir, visual):
 
 
 if __name__ == '__main__':
-    visual = True
-    minimum_disk_check('/', '/', True)
+    minimum_disk_check('./res/mindisc', './res/mindisc', True)
