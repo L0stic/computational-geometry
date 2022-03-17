@@ -48,4 +48,4 @@ Example:
   ```
 - `mindisc_visual.png` - visualisation of last indexes
 
-  ![mindisc](mindisc/mindisc_visual.png)
+  ![mindisc](./app/res/mindisc/mindisc_visual.png)
