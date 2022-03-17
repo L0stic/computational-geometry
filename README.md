@@ -6,7 +6,6 @@ Solved problems:
 ## Install and Build
 ```shell
 python -m venv venv
-source venv/bin/activate
 pip install -r requirements.txt
 ```
 
