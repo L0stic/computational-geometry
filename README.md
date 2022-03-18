@@ -9,10 +9,18 @@ python -m venv venv
 pip install -r requirements.txt
 ```
 
+In `config.json` you can change visualisation and tolerance:
+```json
+{
+  "visualisation": "true",
+  "tolerance": "1e-9"
+}
+```
+
 ## minimum_disk_check
 ```shell
 cd app
-python manage.py minimum_disk_check ./res/mindisc ./res/mindisc True
+python manage.py minimum_disk_check ./res/mindisc ./res/mindisc
 ```
 
 Example:

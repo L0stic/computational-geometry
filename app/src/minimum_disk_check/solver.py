@@ -32,28 +32,28 @@ def read_data(file_path_points: str, file_path_indexes: str) -> (list, list):
     return points, indexes
 
 
-def solve(points, indexes):
+def solve(points, indexes, tolerance=1e-9):
     result = []
     min_disc = None
     for j in range(len(indexes)):
         if len(indexes[j]) == 0:
-            print("empty set")
+            # print("empty set")
 
             if len(points) == 0:
                 result.append(True)
                 if min_disc is None:
-                    min_disc = Disc()
+                    min_disc = Disc(tolerance=tolerance)
                     print("min_disc:", min_disc.to_string())
             else:
                 result.append(False)
             continue
         elif len(indexes[j]) == 1:
-            print("one set")
+            # print("one set")
 
             if len(points) == 1:
                 result.append(True)
                 if min_disc is None:
-                    min_disc = Disc()
+                    min_disc = Disc(tolerance=tolerance)
                     min_disc.circumscribe_point(
                         np.array(points[indexes[j]][0])
                     )
@@ -64,19 +64,19 @@ def solve(points, indexes):
 
         if min_disc is None:
             print("find min_disc")
-            min_disc = find_min_disc(list(points))
+            min_disc = find_min_disc(list(points), tolerance=tolerance)
             print("min_disc:", min_disc.to_string())
 
-        disc = Disc()
+        disc = Disc(tolerance=tolerance)
         start_points = [points[i] for i in indexes[j]]
 
         if len(indexes[j]) == 2:
-            print("two points")
+            # print("two points")
             disc.circumscribe_diameter(
                 np.array(start_points[0]), np.array(start_points[1])
             )
         elif len(indexes[j]) == 3:
-            print("three points")
+            # print("three points")
             if not disc.circumscribe_triangle(
                 np.array(start_points[0]), np.array(start_points[1]), np.array(start_points[2])
             ):
