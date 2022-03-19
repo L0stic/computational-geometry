@@ -1,4 +1,4 @@
 {
   "visualisation": "true",
-  "tolerance": "1e-9"
+  "tolerance": "1e-7"
 }

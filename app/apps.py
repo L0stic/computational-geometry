@@ -5,7 +5,7 @@ from src.minimum_disk_check.solver import solve, read_data
 import time
 
 
-def minimum_disk_check(input_dir, output_dir, visual, tolerance=1e-9):
+def minimum_disk_check(input_dir, output_dir, visual, tolerance=1e-7):
     points, indexes = read_data(input_dir + "/input_points.txt", input_dir + "/input_indexes.txt")
 
     start = time.time() * 1000
@@ -16,6 +16,7 @@ def minimum_disk_check(input_dir, output_dir, visual, tolerance=1e-9):
     print(f"total time for solving: {int(end - start)} ms")
 
     if result is None:
+        print("Something wrong!")
         return
 
     print("result:", result)
@@ -41,4 +42,4 @@ def minimum_disk_check(input_dir, output_dir, visual, tolerance=1e-9):
 
 
 if __name__ == '__main__':
-    minimum_disk_check('./res/mindisc', './res/mindisc', True, tolerance=1e-9)
+    minimum_disk_check('./res/mindisc', './res/mindisc', True, tolerance=1e-7)

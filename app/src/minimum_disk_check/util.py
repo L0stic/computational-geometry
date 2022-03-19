@@ -3,9 +3,9 @@ import numpy as np
 from .visual import plot_circle
 
 
-def get_distance(p1: np.array, p2: np.array) -> float:
+def get_distance_2(p1: np.array, p2: np.array) -> float:
     diff = p1 - p2
-    return np.sqrt((diff * diff).sum())
+    return (diff * diff).sum()
 
 
 def get_s_2(a: float, b: float,  c: float) -> float:
@@ -15,25 +15,28 @@ def get_s_2(a: float, b: float,  c: float) -> float:
 
 @dataclass
 class Disc:
-    def __init__(self, center: np.array = None, radius: float = 0.0, tolerance: float = 1e-9):
+    def __init__(self, center: np.array = None, radius: float = 0, tolerance: float = 1e-7):
         self.center = center
         self.radius = radius
         self.TOLERANCE = tolerance
 
     def circumscribe_point(self, p: np.array):
         self.center = p
-        self.radius = 0.0
+        self.radius = 0
         # print(self.center, self.radius)
 
     def circumscribe_diameter(self, p1: np.array, p2: np.array):
-        self.center = (p1 + p2) / 2.0
-        self.radius = get_distance(p1, p2) / 2.0
+        self.center = (p1 + p2) / 2
+        self.radius = np.sqrt(get_distance_2(p1, p2)) / 2
         # print(self.center, "%.4f" % self.radius)
 
     def circumscribe_triangle(self, p1: np.array, p2: np.array, p3: np.array):
-        a1 = get_distance(p2, p3)
-        a2 = get_distance(p1, p3)
-        a3 = get_distance(p1, p2)
+        a1_2 = get_distance_2(p2, p3)
+        a1 = np.sqrt(a1_2)
+        a2_2 = get_distance_2(p1, p3)
+        a2 = np.sqrt(a2_2)
+        a3_2 = get_distance_2(p1, p2)
+        a3 = np.sqrt(a3_2)
         # print(a1, a2, a3)
         s_2 = get_s_2(a1, a2, a3)
         if s_2 < self.TOLERANCE:
@@ -48,17 +51,17 @@ class Disc:
 
         s = np.sqrt(s_2)
 
-        k1 = (a1 * a1) * ((p1 - p2) * (p1 - p3)).sum()
-        k2 = (a2 * a2) * ((p2 - p1) * (p2 - p3)).sum()
-        k3 = (a3 * a3) * ((p3 - p1) * (p3 - p2)).sum()
+        k1 = a1_2 * ((p1 - p2) * (p1 - p3)).sum()
+        k2 = a2_2 * ((p2 - p3) * (p2 - p1)).sum()
+        k3 = a3_2 * ((p3 - p1) * (p3 - p2)).sum()
 
-        self.center = (k1 * p1 + k2 * p2 + k3 * p3) / (8.0 * s_2)
-        self.radius = (a1 * a2 * a3) / (4.0 * s)
+        self.center = (k1 * p1 + k2 * p2 + k3 * p3) / (8 * s_2)
+        self.radius = np.sqrt((a1_2 * a2_2 * a3_2) / (16 * s_2))
         # print("[%.14f %.14f]" % (self.center[0], self.center[1]), "%.14f" % self.radius)
         return True
 
     def is_contain(self, point: np.array) -> int:
-        distance = get_distance(self.center, point)
+        distance = np.sqrt(get_distance_2(self.center, point))
         diff = self.radius - distance
         if diff > self.TOLERANCE:
             return 1
@@ -68,7 +71,7 @@ class Disc:
             return 0
 
     def is_equal(self, disc) -> bool:
-        diff_center = get_distance(self.center, disc.center)
+        diff_center = np.sqrt(get_distance_2(self.center, disc.center))
         diff_radius = np.abs(self.radius - disc.radius)
 
         if diff_center <= self.TOLERANCE and diff_radius <= self.TOLERANCE:

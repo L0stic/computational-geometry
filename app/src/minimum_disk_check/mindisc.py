@@ -3,7 +3,7 @@ import numpy as np
 from .util import Disc
 
 
-def find_min_disc(points, tolerance=1e-9):
+def find_min_disc(points, tolerance=1e-7):
     random.shuffle(points)
     disc = Disc(tolerance=tolerance)
     disc.circumscribe_diameter(np.array(points[0]), np.array(points[1]))
@@ -13,7 +13,7 @@ def find_min_disc(points, tolerance=1e-9):
     return disc
 
 
-def min_disc_with_point(points, q, tolerance=1e-9):
+def min_disc_with_point(points, q, tolerance=1e-7):
     random.shuffle(points)
     disc = Disc(tolerance=tolerance)
     disc.circumscribe_diameter(np.array(points[0]), np.array(q))
@@ -23,7 +23,7 @@ def min_disc_with_point(points, q, tolerance=1e-9):
     return disc
 
 
-def min_disc_with_2_points(points, q1, q2, tolerance=1e-9):
+def min_disc_with_2_points(points, q1, q2, tolerance=1e-7):
     disc = Disc(tolerance=tolerance)
     disc.circumscribe_diameter(np.array(q1), np.array(q2))
     for i in range(len(points)):
