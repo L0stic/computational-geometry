@@ -1,7 +1,8 @@
 # Computational geometry
 
 Solved problems:
-- minimum_disk_check
+- minimum_disk_check;
+- polygon_monotonicity_check (direction given).
 
 ## Install and Build
 ```shell
@@ -56,3 +57,29 @@ Example:
 - `mindisc_visual.png` - visualisation of last indexes
 
   ![mindisc](./app/res/mindisc/mindisc_visual.png)
+
+## polygon_monotonicity_check (direction given)
+```shell
+cd app
+python manage.py polygon_monotonicity_check ./res/monotonpoly ./res/monotonpoly
+```
+
+Example:
+- `input_vertexes.txt` - vertexes of polygon
+  ```txt
+  2 2
+  0 2
+  1 4
+  5 6
+  5 4
+  ```
+
+- `input_direction.txt` - direction of polygon
+  ```txt
+  1 3
+  ```
+
+- `output.txt` - result
+  ```txt
+  True
+  ```

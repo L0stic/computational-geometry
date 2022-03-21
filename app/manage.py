@@ -1,7 +1,10 @@
 import sys
 from apps import minimum_disk_check
+from apps import polygon_monotonicity_check
 
-import json, os
+
+import json
+import os
 
 visualisation = True
 tolerance = 1e-9
@@ -26,5 +29,7 @@ if __name__ == '__main__':
     print(f'start programme with\n -- input dir = "{input_dir}"\n -- output dir = "{output_dir}"')
     if problem == 'minimum_disk_check':
         minimum_disk_check(input_dir, output_dir, visualisation, tolerance)
+    elif problem == 'polygon_monotonicity_check':
+        polygon_monotonicity_check(input_dir, output_dir, visualisation)
     else:
         print('incorrect problem name')
