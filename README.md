@@ -76,7 +76,7 @@ Example:
 
 - `input_direction.txt` - direction of polygon
   ```txt
-  1 3
+  2 4
   ```
 
 - `output.txt` - result
