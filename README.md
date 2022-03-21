@@ -83,3 +83,7 @@ Example:
   ```txt
   True
   ```
+
+- `monotonpoly_visual.png` - visualisation
+
+  ![monotonpoly](./app/res/monotonpoly/monotonpoly_visual.png)

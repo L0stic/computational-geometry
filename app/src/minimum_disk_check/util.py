@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 import numpy as np
-from .visual import plot_circle
+from src.visual import plot_circle
 
 
 def get_distance_2(p1: np.array, p2: np.array) -> float:

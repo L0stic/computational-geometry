@@ -1,5 +1,6 @@
+import numpy as np
 from matplotlib import pyplot as plt
-from src.minimum_disk_check.visual import plot_points
+from src.visual import plot_points, plot_vector, plot_polygon
 from src.minimum_disk_check.solver import solve, read_data
 import src.polygon_monotonicity_check.solver as monotonpoly_solver
 
@@ -61,8 +62,8 @@ def polygon_monotonicity_check(input_dir, output_dir, visual):
     if visual:
         figure, axes = plt.subplots()
         plot_points(vertexes, figure=figure, ax=axes)
-        plot_points([vertexes[direction[0]]], 'r', '*', figure, axes)
-        plot_points([vertexes[direction[1]]], 'r', '^', figure, axes)
+        plot_polygon(np.array(vertexes), figure=figure, ax=axes)
+        plot_vector(np.array(direction), np.array([5, 0]), scale=2, figure=figure, ax=axes)
         path = output_dir + '/monotonpoly_visual.png'
         plt.grid()
         plt.savefig(path)
