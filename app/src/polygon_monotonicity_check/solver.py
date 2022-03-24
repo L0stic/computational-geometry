@@ -41,9 +41,11 @@ def solve(polynom, direction):
     v3 = polynom[target_vertex_id][0] + ortho_dir[0], polynom[target_vertex_id][1] + ortho_dir[1]
     edge1 = v2[0] - v1[0], v2[1] - v1[1]
     edge2 = v3[0] - v1[0], v3[1] - v1[1]
+    # print(edge1, edge2)
     last_sgn = sign(triangle_area(edge1, edge2))
+    # print(last_sgn)
 
-    changing_sng = 0
+    changing_sgn = 0
 
     for i in range(poly_size):
         target_vertex_id = i % poly_size
@@ -54,12 +56,14 @@ def solve(polynom, direction):
 
         edge1 = v2[0] - v1[0], v2[1] - v1[1]
         edge2 = v3[0] - v1[0], v3[1] - v1[1]
+        # print(edge1, edge2)
 
-        current_sng = sign(triangle_area(edge1, edge2))
-        if current_sng == 0:
+        current_sgn = sign(triangle_area(edge1, edge2))
+        # print(current_sgn)
+        if current_sgn == 0:
             continue
-        if current_sng + last_sgn == 0:
-            changing_sng += 1
-        last_sgn = current_sng
-
-    return changing_sng == 2
+        if current_sgn + last_sgn == 0:
+            changing_sgn += 1
+        last_sgn = current_sgn
+    print(changing_sgn)
+    return changing_sgn <= 2
